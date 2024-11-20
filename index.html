@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarush's Sketchpad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+        .file-item {
+            background: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Aarush's Sketchpad</h1>
+    <p>Explore my files below:</p>
+    <ul class="file-list" id="fileList">
+        <!-- Files will be listed here dynamically -->
+    </ul>
+    
+    <script>
+        const repo = "aarushsonker/Aarushs-Sketchpad"; // Replace with your GitHub username and repository name
+        const fileList = document.getElementById("fileList");
+
+        fetch(`https://api.github.com/repos/${repo}/contents/files`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(file => {
+                    if (file.type === "file") {
+                        const li = document.createElement("li");
+                        li.className = "file-item";
+                        li.innerHTML = `<a href="${file.download_url}" target="_blank">${file.name}</a>`;
+                        fileList.appendChild(li);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching file list:", error);
+                fileList.innerHTML = "<p>Unable to load files.</p>";
+            });
+    </script>
+</body>
+</html>
