@@ -56,6 +56,39 @@
             width: 100%;
             text-align: center;
         }
+
+        /* Style for the bottom panel */
+        #bottom-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: none; /* Initially hidden */
+            z-index: 1000;
+        }
+
+        #bottom-panel iframe {
+            height: 400px;
+            width: 100%;
+            border: none;
+        }
+
+        #panel-header {
+            font-size: 18px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #close-panel {
+            color: red;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +106,13 @@
     <footer>
         <p>&copy; 2024 Aarush's Sketchpad. All rights reserved.</p>
     </footer>
+
+    <!-- Bottom Panel -->
+    <div id="bottom-panel">
+        <span id="panel-header">Click to view more files</span>
+        <span id="close-panel">X</span>
+        <iframe src="https://zinc-jackal-861.notion.site" id="notion-iframe"></iframe>
+    </div>
 
     <script>
         // GitHub repository info
@@ -119,6 +159,16 @@
                 console.error('Error fetching files:', error);
                 document.getElementById('files-list').innerHTML = '<p>Sorry, we could not load the files.</p>';
             });
+
+        // Show the bottom panel when the user clicks on the header
+        document.getElementById('panel-header').onclick = function() {
+            document.getElementById('bottom-panel').style.display = 'block';
+        };
+
+        // Close the bottom panel
+        document.getElementById('close-panel').onclick = function() {
+            document.getElementById('bottom-panel').style.display = 'none';
+        };
     </script>
 </body>
 </html>
