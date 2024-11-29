@@ -5,51 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aarush's Sketchpad</title>
     <style>
+        /* General Body Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
             color: #333;
             margin: 0;
             padding: 0;
             text-align: center;
         }
+
+        /* Header Styles */
         header {
-            background-color: #333;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 20px 0;
+            font-size: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container for the content */
+        .container {
+            margin: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #007BFF;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        /* Links Styles */
+        a {
+            display: inline-block;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Footer Style */
+        footer {
+            background-color: #007BFF;
             color: #fff;
             padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
         }
-        .container {
-            margin: 20px;
-        }
-        a {
-            display: block;
-            margin: 15px;
-            color: #007BFF;
-            text-decoration: none;
-            font-size: 18px;
-        }
-        a:hover {
-            text-decoration: underline;
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            a {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Aarush's Sketchpad</h1>
+        Aarush's Sketchpad
     </header>
     <div class="container">
-        <h2>Download or Open Files</h2>
-
-        <!-- Link to PDF (raw GitHub URL) -->
-        <a href="https://raw.githubusercontent.com/aarushsonker/Aarush-Sketchpad/main/example.pdf" target="_blank">Open PDF: example.pdf</a>
-
-        <!-- Link to DOCX (using Google Docs viewer) -->
-        <a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/aarushsonker/Aarush-Sketchpad/main/example.docx" target="_blank">Open DOCX: example.docx</a>
+        <h2>Open or Download Files</h2>
         
-        <!-- Additional Links for other files -->
-        <!-- Replace with your actual file names -->
-        <a href="https://raw.githubusercontent.com/aarushsonker/Aarush-Sketchpad/main/another-file.pdf" target="_blank">Open PDF: another-file.pdf</a>
-        <a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/aarushsonker/Aarush-Sketchpad/main/another-file.docx" target="_blank">Open DOCX: another-file.docx</a>
+        <!-- Link to PDF (GitHub URL) -->
+        <a href="https://raw.githubusercontent.com/aarushsonker/Aarush-Sketchpad/main/example.pdf" download>Download PDF: example.pdf</a>
+
+        <!-- Link to DOCX (Google Docs Viewer) -->
+        <a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/aarushsonker/Aarush-Sketchpad/main/example.docx" target="_blank">View DOCX: example.docx</a>
+
+        <!-- Additional Files -->
+        <a href="https://raw.githubusercontent.com/aarushsonker/Aarush-Sketchpad/main/another-file.pdf" download>Download PDF: another-file.pdf</a>
+        <a href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/aarushsonker/Aarush-Sketchpad/main/another-file.docx" target="_blank">View DOCX: another-file.docx</a>
     </div>
+
+    <footer>
+        <p>&copy; 2024 Aarush's Sketchpad. All rights reserved.</p>
+    </footer>
 </body>
 </html>
