@@ -40,13 +40,6 @@
             margin-top: 30px;
         }
 
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            margin-top: 20px;
-        }
-
         footer {
             background-color: #007BFF;
             color: #fff;
@@ -56,6 +49,23 @@
             width: 100%;
             text-align: center;
         }
+
+        .file-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-item a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .file-item a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -64,7 +74,7 @@
     </header>
 
     <div class="container">
-        <h2>Preview Files</h2>
+        <h2>Available Files for Download</h2>
         
         <!-- File container -->
         <div id="files-list"></div>
@@ -80,7 +90,7 @@
         const repo = 'Aarush-Sketchpad';
         const folder = 'files'; // Folder name in your repository
 
-        // GitHub API URL to list files in a folder
+        // GitHub API URL to list files in the 'files' folder
         const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
 
         // Fetch files from GitHub repository folder
@@ -92,24 +102,16 @@
                     if (file.type === 'file') {
                         const fileUrl = file.download_url;
                         const fileName = file.name;
-                        const fileExtension = fileName.split('.').pop().toLowerCase();
 
-                        let fileElement = document.createElement('div');
+                        // Create a file item with download link
+                        const fileElement = document.createElement('div');
                         fileElement.classList.add('file-item');
-                        
-                        // Check file type to embed it correctly (PDF or DOCX)
-                        if (fileExtension === 'pdf') {
-                            fileElement.innerHTML = `
-                                <h3>Preview PDF: ${fileName}</h3>
-                                <iframe src="${fileUrl}" width="100%" height="600px"></iframe>
-                            `;
-                        } else if (fileExtension === 'docx') {
-                            fileElement.innerHTML = `
-                                <h3>Download DOCX: ${fileName}</h3>
-                                <a href="${fileUrl}" download>Download ${fileName}</a>
-                            `;
-                        }
-                        
+
+                        fileElement.innerHTML = `
+                            <h3>${fileName}</h3>
+                            <a href="${fileUrl}" download>Download ${fileName}</a>
+                        `;
+
                         filesListContainer.appendChild(fileElement);
                     }
                 });
