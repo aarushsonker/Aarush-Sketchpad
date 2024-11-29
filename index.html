@@ -66,8 +66,9 @@
             background-color: #333;
             color: #fff;
             padding: 10px;
-            display: none; /* Initially hidden */
+            display: block; /* Default is visible */
             z-index: 1000;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
         }
 
         #bottom-panel iframe {
@@ -80,6 +81,11 @@
             font-size: 18px;
             cursor: pointer;
             text-align: center;
+            padding: 10px;
+            background-color: #555;
+            border-radius: 5px;
+            width: 100%;
+            display: inline-block;
         }
 
         #close-panel {
@@ -88,6 +94,7 @@
             position: absolute;
             right: 10px;
             top: 10px;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -118,7 +125,7 @@
         // GitHub repository info
         const username = 'aarushsonker';
         const repo = 'Aarush-Sketchpad';
-        const folder = 'your-folder'; // Folder name in your repository
+        const folder = 'files'; // Folder name in your repository
 
         // GitHub API URL to list files in a folder
         const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
@@ -128,42 +135,41 @@
             .then(response => response.json())
             .then(files => {
                 const filesListContainer = document.getElementById('files-list');
-                files.forEach(file => {
-                    if (file.type === 'file') {
-                        const fileUrl = file.download_url;
-                        const fileName = file.name;
-                        const fileExtension = fileName.split('.').pop().toLowerCase();
+                if (Array.isArray(files)) {
+                    files.forEach(file => {
+                        if (file.type === 'file') {
+                            const fileUrl = file.download_url;
+                            const fileName = file.name;
+                            const fileExtension = fileName.split('.').pop().toLowerCase();
 
-                        let fileElement = document.createElement('div');
-                        fileElement.classList.add('file-item');
-                        
-                        // Check file type to embed it correctly (PDF)
-                        if (fileExtension === 'pdf') {
-                            fileElement.innerHTML = `
-                                <h3>Preview PDF: ${fileName}</h3>
-                                <iframe src="${fileUrl}" width="100%" height="600px"></iframe>
-                            `;
-                        } else if (fileExtension === 'docx') {
-                            // For DOCX, display a link to download (you could convert DOCX to PDF and display it instead)
-                            fileElement.innerHTML = `
-                                <h3>View DOCX (Download Link): ${fileName}</h3>
-                                <a href="${fileUrl}" target="_blank">Open DOCX file in your browser</a>
-                            `;
+                            let fileElement = document.createElement('div');
+                            fileElement.classList.add('file-item');
+                            
+                            // Check file type to embed it correctly (PDF)
+                            if (fileExtension === 'pdf') {
+                                fileElement.innerHTML = `
+                                    <h3>Preview PDF: ${fileName}</h3>
+                                    <iframe src="${fileUrl}" width="100%" height="600px"></iframe>
+                                `;
+                            } else if (fileExtension === 'docx') {
+                                // For DOCX, display a link to download (you could convert DOCX to PDF and display it instead)
+                                fileElement.innerHTML = `
+                                    <h3>View DOCX (Download Link): ${fileName}</h3>
+                                    <a href="${fileUrl}" target="_blank">Open DOCX file in your browser</a>
+                                `;
+                            }
+                            
+                            filesListContainer.appendChild(fileElement);
                         }
-                        
-                        filesListContainer.appendChild(fileElement);
-                    }
-                });
+                    });
+                } else {
+                    filesListContainer.innerHTML = '<p>Sorry, we could not load the files. Please try again later.</p>';
+                }
             })
             .catch(error => {
                 console.error('Error fetching files:', error);
-                document.getElementById('files-list').innerHTML = '<p>Sorry, we could not load the files.</p>';
+                document.getElementById('files-list').innerHTML = '<p>Sorry, we could not load the files. Please try again later.</p>';
             });
-
-        // Show the bottom panel when the user clicks on the header
-        document.getElementById('panel-header').onclick = function() {
-            document.getElementById('bottom-panel').style.display = 'block';
-        };
 
         // Close the bottom panel
         document.getElementById('close-panel').onclick = function() {
