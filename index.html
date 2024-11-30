@@ -6,82 +6,40 @@
     <title>Aarush's Sketchpad</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
             text-align: center;
         }
 
         header {
             background-color: #007BFF;
             color: #fff;
-            padding: 20px 0;
-            font-size: 30px;
-        }
-
-        .container {
-            margin: 40px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
+            padding: 15px;
             font-size: 24px;
+        }
+
+        .file-list {
+            margin: 20px auto;
+            padding: 10px;
+            max-width: 600px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-link {
+            display: block;
+            margin: 10px 0;
             color: #007BFF;
-        }
-
-        footer {
-            background-color: #007BFF;
-            color: #fff;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Style for the bottom panel */
-        #bottom-panel {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            display: block; /* Default is visible */
-            z-index: 1000;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
-
-        #bottom-panel iframe {
-            height: 400px;
-            width: 100%;
-            border: none;
-        }
-
-        #panel-header {
+            text-decoration: none;
             font-size: 18px;
-            cursor: pointer;
-            text-align: center;
-            padding: 10px;
-            background-color: #555;
-            border-radius: 5px;
-            width: 100%;
-            display: inline-block;
         }
 
-        #close-panel {
-            color: red;
-            cursor: pointer;
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            font-size: 20px;
+        .file-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -90,28 +48,47 @@
         Aarush's Sketchpad
     </header>
 
-    <div class="container">
-        <h2>Welcome to Aarush's Sketchpad</h2>
-        <p>Explore files, documents, and more from the following link:</p>
-        <div id="files-list"></div>
-    </div>
-
-    <footer>
-        <p>&copy; 2024 Aarush's Sketchpad. All rights reserved.</p>
-    </footer>
-
-    <!-- Bottom Panel -->
-    <div id="bottom-panel">
-        <span id="panel-header">Click to view more files from Notion</span>
-        <span id="close-panel">X</span>
-        <iframe src="https://zinc-jackal-861.notion.site" id="notion-iframe"></iframe>
+    <div class="file-list" id="file-list">
+        <p>Loading files...</p>
     </div>
 
     <script>
-        // Close the bottom panel
-        document.getElementById('close-panel').onclick = function() {
-            document.getElementById('bottom-panel').style.display = 'none';
-        };
+        // Fetch and display files from the "files" directory
+        async function loadFiles() {
+            try {
+                const response = await fetch('./files/');
+                if (!response.ok) {
+                    document.getElementById('file-list').innerHTML = '<p>Error loading files.</p>';
+                    return;
+                }
+
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const links = doc.querySelectorAll('a');
+
+                const fileList = document.getElementById('file-list');
+                fileList.innerHTML = '';
+
+                links.forEach(link => {
+                    const fileName = link.textContent.trim();
+                    if (fileName !== '../') { // Exclude parent directory link
+                        const fileLink = document.createElement('a');
+                        fileLink.href = `./files/${fileName}`;
+                        fileLink.textContent = fileName;
+                        fileLink.className = 'file-link';
+                        fileLink.target = '_blank';
+                        fileList.appendChild(fileLink);
+                    }
+                });
+            } catch (error) {
+                document.getElementById('file-list').innerHTML = '<p>Error loading files.</p>';
+                console.error(error);
+            }
+        }
+
+        // Call the function to load files on page load
+        loadFiles();
     </script>
 </body>
 </html>
